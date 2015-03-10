@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150310140015) do
+ActiveRecord::Schema.define(version: 20150310223020) do
 
   create_table "parts", force: :cascade do |t|
     t.string   "name",        null: false
@@ -21,6 +21,18 @@ ActiveRecord::Schema.define(version: 20150310140015) do
   end
 
   add_index "parts", ["name"], name: "index_parts_on_name"
+
+  create_table "supplier_parts", force: :cascade do |t|
+    t.integer  "part_id",     null: false
+    t.integer  "supplier_id", null: false
+    t.string   "part_number"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "supplier_parts", ["part_id"], name: "index_supplier_parts_on_part_id"
+  add_index "supplier_parts", ["part_number"], name: "index_supplier_parts_on_part_number"
+  add_index "supplier_parts", ["supplier_id"], name: "index_supplier_parts_on_supplier_id"
 
   create_table "suppliers", force: :cascade do |t|
     t.string   "name",       null: false
