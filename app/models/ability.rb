@@ -2,21 +2,18 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new
+    @user = user || User.new
 
-    can :manage, :all if user.admin
+    can :manage, :all if @user.admin
+    can :read, :all
 
-    user_permissions(user)
-    parts_permissions(user)
+    user_permissions
   end
 
 protected
 
-  def user_permissions(user)
-    can [:read, :update], User, { id: user.id }
-  end
-
-  def parts_permissions(user)
-    can :read, Part
+  def user_permissions
+    cannot :read, User unless @user.admin
+    can [:read, :update, :delete], User, { id: @user.id } if @user.persisted?
   end
 end
