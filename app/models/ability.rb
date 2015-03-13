@@ -5,7 +5,7 @@ class Ability
     @user = user || User.new
 
     can :manage, :all if @user.admin
-    can :read, :all
+    can [:index, :show], :all
 
     user_permissions
   end
@@ -13,7 +13,7 @@ class Ability
 protected
 
   def user_permissions
-    cannot :read, User unless @user.admin
-    can [:read, :update, :delete], User, { id: @user.id } if @user.persisted?
+    cannot [:index, :show], User unless @user.admin
+    can [:show, :update, :delete], User, { id: @user.id } if @user.persisted?
   end
 end
