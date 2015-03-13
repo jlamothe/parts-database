@@ -1,10 +1,10 @@
-require_relative '../support/record.rb'
+require_relative '../support/resource.rb'
 
 RSpec.describe User, type: :model do
   subject { build :user }
-  include_examples :record, false
+  it_should_behave_like 'a resource', false
 
-  [:read, :update, :delete].each do |activity|
+  [:show, :edit, :update, :delete].each do |activity|
     it "should be able to #{activity} themselves" do
       subject.save!
       expect(Ability.new(subject).can? activity, subject).to be true
